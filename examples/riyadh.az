@@ -1,0 +1,23 @@
+// A small fare-planning simulation. These are illustrative fares, not official prices.
+dallah fare(stops: raqm, weekend: mantiq) -> raqm {
+    khalli base: raqm = 2 * 2;
+    itha (weekend wa stops > 3) {
+        arja base + stops;
+    } willa {
+        arja base + stops * 2;
+    }
+}
+
+dallah bidaya() -> faragh {
+    itba("أهلاً بالرياض — Arabizi transit demo");
+    khalli trip: raqm = 1;
+    khalli total: raqm = 0;
+    talama (trip <= 5) {
+        khalli cost: raqm = fare(trip, sah);
+        itba(cost);
+        total = total + cost;
+        trip = trip + 1;
+    }
+    itba("Total illustrative fare (SAR):");
+    itba(total);
+}

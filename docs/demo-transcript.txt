@@ -1,0 +1,174 @@
+ARABIZI / عربيزي — compiler laboratory
+
+01  SOURCE
+// A small fare-planning simulation. These are illustrative fares, not official prices.
+dallah fare(stops: raqm, weekend: mantiq) -> raqm {
+    khalli base: raqm = 2 * 2;
+    itha (weekend wa stops > 3) {
+        arja base + stops;
+    } willa {
+        arja base + stops * 2;
+    }
+}
+
+dallah bidaya() -> faragh {
+    itba("أهلاً بالرياض — Arabizi transit demo");
+    khalli trip: raqm = 1;
+    khalli total: raqm = 0;
+    talama (trip <= 5) {
+        khalli cost: raqm = fare(trip, sah);
+        itba(cost);
+        total = total + cost;
+        trip = trip + 1;
+    }
+    itba("Total illustrative fare (SAR):");
+    itba(total);
+}
+
+02  LEXER / 123 tokens
+dallah ID ( ID : raqm , ID : mantiq ) -> raqm { khalli ID : raqm = NUMBER * NUMBER ; itha …
+
+03  TYPED AST / symbol resolution
+    fare(stops: raqm@slot0, weekend: mantiq@slot1) -> raqm; 3 local slots
+    bidaya() -> faragh; 3 local slots
+
+04  SYMBOLIC IR
+dallah fare / 2 arguments / 3 slots
+  0000  CONST      4                        ; 3:27
+  0001  STORE      2                        ; 3:5
+  0002  LOAD       1                        ; 4:11
+  0003  DUP                                 ; 4:19
+  0004  JZ         "L3"                     ; 4:19
+  0005  POP                                 ; 4:19
+  0006  LOAD       0                        ; 4:22
+  0007  CONST      3                        ; 4:30
+  0008  BINARY     ">"                      ; 4:28
+  0009  LABEL      "L3"                     ; 4:19
+  0010  JZ         "L1"                     ; 4:5
+  0011  LOAD       2                        ; 5:14
+  0012  LOAD       0                        ; 5:21
+  0013  BINARY     "+"                      ; 5:19
+  0014  RET                                 ; 5:9
+  0015  JMP        "L2"                     ; 4:5
+  0016  LABEL      "L1"                     ; 4:5
+  0017  LOAD       2                        ; 7:14
+  0018  LOAD       0                        ; 7:21
+  0019  CONST      2                        ; 7:29
+  0020  BINARY     "*"                      ; 7:27
+  0021  BINARY     "+"                      ; 7:19
+  0022  RET                                 ; 7:9
+  0023  LABEL      "L2"                     ; 4:5
+  0024  CONST                               ; 2:1
+  0025  RET                                 ; 2:1
+dallah bidaya / 0 arguments / 3 slots
+  0000  CONST      "أهلاً بالرياض — Arabizi transit demo" ; 12:10
+  0001  PRINT                               ; 12:5
+  0002  CONST      1                        ; 13:25
+  0003  STORE      0                        ; 13:5
+  0004  CONST      0                        ; 14:26
+  0005  STORE      1                        ; 14:5
+  0006  LABEL      "L1"                     ; 15:5
+  0007  LOAD       0                        ; 15:13
+  0008  CONST      5                        ; 15:21
+  0009  BINARY     "<="                     ; 15:18
+  0010  JZ         "L2"                     ; 15:5
+  0011  LOAD       0                        ; 16:34
+  0012  CONST      true                     ; 16:40
+  0013  CALL       ["fare", 2]              ; 16:29
+  0014  STORE      2                        ; 16:9
+  0015  LOAD       2                        ; 17:14
+  0016  PRINT                               ; 17:9
+  0017  LOAD       1                        ; 18:17
+  0018  LOAD       2                        ; 18:25
+  0019  BINARY     "+"                      ; 18:23
+  0020  STORE      1                        ; 18:9
+  0021  LOAD       0                        ; 19:16
+  0022  CONST      1                        ; 19:23
+  0023  BINARY     "+"                      ; 19:21
+  0024  STORE      0                        ; 19:9
+  0025  JMP        "L1"                     ; 15:5
+  0026  LABEL      "L2"                     ; 15:5
+  0027  CONST      "Total illustrative fare (SAR):" ; 21:10
+  0028  PRINT                               ; 21:5
+  0029  LOAD       1                        ; 22:10
+  0030  PRINT                               ; 22:5
+  0031  CONST                               ; 11:1
+  0032  RET                                 ; 11:1
+
+05  ASSEMBLED BYTECODE
+dallah fare / 2 arguments / 3 slots
+  0000  CONST      4                        ; 3:27
+  0001  STORE      2                        ; 3:5
+  0002  LOAD       1                        ; 4:11
+  0003  DUP                                 ; 4:19
+  0004  JZ         9                        ; 4:19
+  0005  POP                                 ; 4:19
+  0006  LOAD       0                        ; 4:22
+  0007  CONST      3                        ; 4:30
+  0008  BINARY     ">"                      ; 4:28
+  0009  JZ         15                       ; 4:5
+  0010  LOAD       2                        ; 5:14
+  0011  LOAD       0                        ; 5:21
+  0012  BINARY     "+"                      ; 5:19
+  0013  RET                                 ; 5:9
+  0014  JMP        21                       ; 4:5
+  0015  LOAD       2                        ; 7:14
+  0016  LOAD       0                        ; 7:21
+  0017  CONST      2                        ; 7:29
+  0018  BINARY     "*"                      ; 7:27
+  0019  BINARY     "+"                      ; 7:19
+  0020  RET                                 ; 7:9
+  0021  CONST                               ; 2:1
+  0022  RET                                 ; 2:1
+dallah bidaya / 0 arguments / 3 slots
+  0000  CONST      "أهلاً بالرياض — Arabizi transit demo" ; 12:10
+  0001  PRINT                               ; 12:5
+  0002  CONST      1                        ; 13:25
+  0003  STORE      0                        ; 13:5
+  0004  CONST      0                        ; 14:26
+  0005  STORE      1                        ; 14:5
+  0006  LOAD       0                        ; 15:13
+  0007  CONST      5                        ; 15:21
+  0008  BINARY     "<="                     ; 15:18
+  0009  JZ         25                       ; 15:5
+  0010  LOAD       0                        ; 16:34
+  0011  CONST      true                     ; 16:40
+  0012  CALL       ["fare", 2]              ; 16:29
+  0013  STORE      2                        ; 16:9
+  0014  LOAD       2                        ; 17:14
+  0015  PRINT                               ; 17:9
+  0016  LOAD       1                        ; 18:17
+  0017  LOAD       2                        ; 18:25
+  0018  BINARY     "+"                      ; 18:23
+  0019  STORE      1                        ; 18:9
+  0020  LOAD       0                        ; 19:16
+  0021  CONST      1                        ; 19:23
+  0022  BINARY     "+"                      ; 19:21
+  0023  STORE      0                        ; 19:9
+  0024  JMP        6                        ; 15:5
+  0025  CONST      "Total illustrative fare (SAR):" ; 21:10
+  0026  PRINT                               ; 21:5
+  0027  LOAD       1                        ; 22:10
+  0028  PRINT                               ; 22:5
+  0029  CONST                               ; 11:1
+  0030  RET                                 ; 11:1
+
+06  SERIALIZE → LOAD → VERIFY → EXECUTE
+أهلاً بالرياض — Arabizi transit demo
+6
+8
+10
+8
+9
+Total illustrative fare (SAR):
+41
+    Executed 187 instructions.
+
+07  SOURCE-AWARE DIAGNOSTICS
+examples/type_error.az:2:5: type: Expected raqm, got nass
+      khalli trips: raqm = "five";
+      ^^^^^^
+
+examples/runtime_error.az:3:14: runtime: Division by zero
+      itba(100 / passengers);
+               ^

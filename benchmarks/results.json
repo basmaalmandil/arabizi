@@ -1,0 +1,265 @@
+{
+  "timestamp_utc": "2026-10-20T02:18:26.208409+00:00",
+  "python": "3.9.6 (default, Dec  2 2025, 07:27:58) \n[Clang 17.0.0 (clang-1700.6.3.2)]",
+  "platform": "macOS-26.5.1-arm64-arm-64bit",
+  "machine": "arm64",
+  "processor": "arm",
+  "repeats": 9,
+  "warmups": 2,
+  "order_seed": 2030,
+  "method": "Precompiled/parsed execution; fresh VM/interpreter per run; output checked; shuffled engine order; wall-clock milliseconds.",
+  "workloads": {
+    "constant_loop": {
+      "source": "dallah bidaya() -> faragh {\n        khalli i: raqm=0; khalli total: raqm=0;\n        talama(i<5000) { total=total + i % ((2+3)*(4+5)); i=i+1; }\n        itba(total);\n    }",
+      "expected_output": "109900",
+      "execution": {
+        "tree_interpreter": {
+          "median_ms": 25.343458,
+          "min_ms": 24.6535,
+          "max_ms": 25.919708,
+          "stdev_ms": 0.42043456095522286,
+          "samples_ms": [
+            25.568208,
+            24.9395,
+            24.794666,
+            25.919708,
+            25.10125,
+            25.343458,
+            25.556708,
+            25.537917,
+            24.6535
+          ]
+        },
+        "vm_unoptimized": {
+          "median_ms": 35.682334,
+          "min_ms": 35.290375,
+          "max_ms": 36.438792,
+          "stdev_ms": 0.35095627277142605,
+          "samples_ms": [
+            35.290375,
+            35.578542,
+            36.438792,
+            36.023541,
+            35.682334,
+            35.619708,
+            35.922208,
+            36.116041,
+            35.560167
+          ]
+        },
+        "vm_optimized": {
+          "median_ms": 25.634291,
+          "min_ms": 25.049334,
+          "max_ms": 25.905292,
+          "stdev_ms": 0.2528468167651114,
+          "samples_ms": [
+            25.80075,
+            25.634291,
+            25.571208,
+            25.418208,
+            25.71375,
+            25.049334,
+            25.697917,
+            25.459958,
+            25.905292
+          ]
+        }
+      },
+      "compile_optimized": {
+        "median_ms": 0.149791,
+        "min_ms": 0.141584,
+        "max_ms": 0.188416,
+        "stdev_ms": 0.014001809293802,
+        "samples_ms": [
+          0.188416,
+          0.144458,
+          0.1525,
+          0.147333,
+          0.145166,
+          0.151459,
+          0.149791,
+          0.141584,
+          0.150041
+        ]
+      },
+      "instruction_counts": {
+        "vm_unoptimized": 105012,
+        "vm_optimized": 75012
+      },
+      "static_instructions": {
+        "vm_unoptimized": 29,
+        "vm_optimized": 23
+      },
+      "speedup_vs_tree": 0.9886545331017736,
+      "speedup_vs_unoptimized": 1.39197663005386
+    },
+    "function_calls": {
+      "source": "dallah square(n: raqm)->raqm { arja n*n; }\n    dallah bidaya()->faragh {\n        khalli i: raqm=0; khalli total: raqm=0;\n        talama(i<1500) { total=total+square(i); i=i+1; } itba(total);\n    }",
+      "expected_output": "1123875250",
+      "execution": {
+        "tree_interpreter": {
+          "median_ms": 8.476083,
+          "min_ms": 8.235083,
+          "max_ms": 8.614208,
+          "stdev_ms": 0.1440948081689623,
+          "samples_ms": [
+            8.2995,
+            8.476083,
+            8.459417,
+            8.489334,
+            8.548458,
+            8.6035,
+            8.614208,
+            8.235083,
+            8.2625
+          ]
+        },
+        "vm_unoptimized": {
+          "median_ms": 9.893958,
+          "min_ms": 9.696708,
+          "max_ms": 10.110959,
+          "stdev_ms": 0.1507822526195566,
+          "samples_ms": [
+            9.942,
+            9.696708,
+            9.751958,
+            9.748583,
+            10.110959,
+            10.079542,
+            9.893958,
+            9.97375,
+            9.784791
+          ]
+        },
+        "vm_optimized": {
+          "median_ms": 10.000041,
+          "min_ms": 9.697959,
+          "max_ms": 10.087084,
+          "stdev_ms": 0.12447129771602397,
+          "samples_ms": [
+            9.992791,
+            9.982208,
+            10.06325,
+            9.697959,
+            10.034875,
+            10.046292,
+            10.087084,
+            10.000041,
+            9.843625
+          ]
+        }
+      },
+      "compile_optimized": {
+        "median_ms": 0.16525,
+        "min_ms": 0.157125,
+        "max_ms": 0.1875,
+        "stdev_ms": 0.00940034656867028,
+        "samples_ms": [
+          0.1875,
+          0.173083,
+          0.167459,
+          0.15975,
+          0.16525,
+          0.159166,
+          0.157125,
+          0.165709,
+          0.16075
+        ]
+      },
+      "instruction_counts": {
+        "vm_unoptimized": 27012,
+        "vm_optimized": 27012
+      },
+      "static_instructions": {
+        "vm_unoptimized": 28,
+        "vm_optimized": 28
+      },
+      "speedup_vs_tree": 0.8476048248202182,
+      "speedup_vs_unoptimized": 0.9893917434938517
+    },
+    "recursive_fibonacci": {
+      "source": "dallah fib(n: raqm)->raqm {\n        itha(n<2) { arja n; } willa { arja fib(n-1)+fib(n-2); }\n    }\n    dallah bidaya()->faragh { itba(fib(16)); }",
+      "expected_output": "987",
+      "execution": {
+        "tree_interpreter": {
+          "median_ms": 11.158041,
+          "min_ms": 10.802834,
+          "max_ms": 11.840958,
+          "stdev_ms": 0.3287088254219497,
+          "samples_ms": [
+            11.840958,
+            10.802834,
+            10.92925,
+            11.319666,
+            11.259083,
+            11.210125,
+            11.158041,
+            10.829833,
+            10.880875
+          ]
+        },
+        "vm_unoptimized": {
+          "median_ms": 12.650875,
+          "min_ms": 12.455,
+          "max_ms": 12.984708,
+          "stdev_ms": 0.19122364543774378,
+          "samples_ms": [
+            12.476875,
+            12.539333,
+            12.558625,
+            12.9455,
+            12.984708,
+            12.734292,
+            12.650875,
+            12.656625,
+            12.455
+          ]
+        },
+        "vm_optimized": {
+          "median_ms": 12.77475,
+          "min_ms": 12.578083,
+          "max_ms": 13.102667,
+          "stdev_ms": 0.17736804987002167,
+          "samples_ms": [
+            12.710583,
+            12.879459,
+            12.578083,
+            13.102667,
+            12.77475,
+            13.00225,
+            12.870417,
+            12.636625,
+            12.647292
+          ]
+        }
+      },
+      "compile_optimized": {
+        "median_ms": 0.136,
+        "min_ms": 0.125875,
+        "max_ms": 0.169833,
+        "stdev_ms": 0.01282065702727872,
+        "samples_ms": [
+          0.169833,
+          0.1485,
+          0.132042,
+          0.133875,
+          0.13725,
+          0.136167,
+          0.125875,
+          0.135959,
+          0.136
+        ]
+      },
+      "instruction_counts": {
+        "vm_unoptimized": 31931,
+        "vm_optimized": 31931
+      },
+      "static_instructions": {
+        "vm_unoptimized": 24,
+        "vm_optimized": 24
+      },
+      "speedup_vs_tree": 0.8734449597839489,
+      "speedup_vs_unoptimized": 0.9903031370476917
+    }
+  }
+}

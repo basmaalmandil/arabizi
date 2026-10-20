@@ -1,0 +1,4 @@
+dallah bidaya() -> faragh {
+    khalli trips: raqm = "five";
+    itba(trips);
+}

@@ -1,0 +1,4 @@
+dallah bidaya() -> faragh {
+    khalli passengers: raqm = 0;
+    itba(100 / passengers);
+}

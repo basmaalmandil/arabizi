@@ -1,0 +1,9 @@
+dallah factorial(n: raqm) -> raqm {
+    itha (n <= 1) { arja 1; }
+    willa { arja n * factorial(n - 1); }
+}
+
+dallah bidaya() -> faragh {
+    itba("10! =");
+    itba(factorial(10));
+}
